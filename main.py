@@ -61,7 +61,6 @@ def main():
     cashbackPoulpeo = getCashbackPoulpeo() * 1.1 + 10
 
     cashbacks = [cashbackEbuyclub, cashbackWidilo, cashbackIgraal, cashbackPoulpeo]
-    print(cashbacks)
 
     cashbackFinal = max(cashbacks)
     indexMax = cashbacks.index(cashbackFinal)
