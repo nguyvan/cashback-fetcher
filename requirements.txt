@@ -4,3 +4,6 @@ gunicorn
 Jinja2
 xmltodict
 requests
+pymongo
+schedule
+configparser

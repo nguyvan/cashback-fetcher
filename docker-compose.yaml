@@ -1,0 +1,32 @@
+services:
+  app:
+    build:
+      context: ./
+      dockerfile: dockerfile.app
+
+    ports:
+      - 80:80
+    
+    volumes:
+      - .:/app
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data:/data/db
+    env_file:
+      - .env
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+
+  cron:
+    build:
+      context: ./
+      dockerfile: dockerfile.cron
+
+volumes:
+  mongodb_data:
