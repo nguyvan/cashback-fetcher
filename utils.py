@@ -40,9 +40,12 @@ def get_cashback_ebuyclub(name: str) -> float:
 def get_cashback_poulpeo(name: str) -> float:
     url = f"https://www.poulpeo.com/reductions-{name}.htm"
     soup = get_soup_parser(url)
-
-    content_container = soup.find_all("div", class_="m-offer__sidebar")
-    contents = content_container[1].find_all("div", class_="m-offer__colored")
+    content_container = soup.find_all("h2", class_="m-offerDouble__title -p")
+    if len(content_container) == 0:
+        content_container = soup.find_all("div", class_="m-offer__sidebar")
+        contents = content_container[1].find_all("div", class_="m-offer__colored")
+    else:
+        contents = content_container[0].find_all("span")
     cashback = format_cashback_str(str(contents[0].text))
     return cashback
 
