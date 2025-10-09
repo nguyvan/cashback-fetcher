@@ -29,53 +29,66 @@ def get_cashback_ebuyclub(name: str) -> float:
         url_name = "prive-by-zalando-9777"
     else:
         url_name = "nocibe-925"
-    url = f"https://www.ebuyclub.com/reduction-{url_name}"
-    soup = get_soup_parser(url)
+    try :
+      url = f"https://www.ebuyclub.com/reduction-{url_name}"
+      soup = get_soup_parser(url)
 
-    content_container = soup.find("form", id="fake-reload")
-    content = content_container.find("strong")
-    cashback = format_cashback_str(str(content.text))
-    return cashback
+      content_container = soup.find("form", id="fake-reload")
+      content = content_container.find("strong")
+      cashback = format_cashback_str(str(content.text))
+      return None, cashback
+    except:
+        return "Error when crawling eBuyclub", 0
 
 def get_cashback_poulpeo(name: str) -> float:
-    url = f"https://www.poulpeo.com/reductions-{name}.htm"
-    soup = get_soup_parser(url)
-    content_container = soup.find_all("h2", class_="m-offerDouble__title -p")
-    if len(content_container) == 0:
-        content_container = soup.find_all("div", class_="m-offer__sidebar")
-        contents = content_container[1].find_all("div", class_="m-offer__colored")
-    else:
-        contents = content_container[0].find_all("span")
-    cashback = format_cashback_str(str(contents[0].text))
-    return cashback
+    try:
+      url = f"https://www.poulpeo.com/reductions-{name}.htm"
+      soup = get_soup_parser(url)
+      content_container = soup.find_all("h2", class_="m-offerDouble__title -p")
+      if len(content_container) == 0:
+          content_container = soup.find_all("div", class_="m-offer__sidebar")
+          contents = content_container[1].find_all("div", class_="m-offer__colored")
+      else:
+          contents = content_container[0].find_all("span")
+      cashback = format_cashback_str(str(contents[0].text))
+      return None, cashback
+    except:
+        return "Error when crawling Poulpeo", 0
 
 def get_cashback_igraal(name: str) -> float:
-    url = f"https://fr.igraal.com/codes-promo/{name}"
-    soup = get_soup_parser(url)
-    
-    content_container = soup.find_all("span", class_="cashback_rate")
-    content = content_container[0]
-    cashback = format_cashback_str(str(content.text))
-    return cashback
-
+    try:
+      url = f"https://fr.igraal.com/codes-promo/{name}"
+      soup = get_soup_parser(url)
+      
+      content_container = soup.find_all("span", class_="cashback_rate")
+      content = content_container[0]
+      cashback = format_cashback_str(str(content.text))
+      return None, cashback
+    except:
+        return "Error when crawling iGraal", 0
 def get_cashback_widilo(name: str) -> float:
-    url = f"https://www.widilo.fr/code-promo/{name}"
-    soup = get_soup_parser(url)
-
-    content_container = soup.find_all("span", class_="btn-badge")
-    content_cashback = content_container[0]
-    cashback = format_cashback_str(str(content_cashback.text))
-    if name == "marionnaud":
-        content_cashback_giftcard = content_container[1]
-        cashback += format_cashback_str(str(content_cashback_giftcard.text))
-    return cashback
+    try:
+        url = f"https://www.widilo.fr/code-promo/{name}"
+        soup = get_soup_parser(url)
+        content_container = soup.find_all("span", class_="cashback widilo-deal-shop-card_body_top_content_value_value")
+        content_cashback = content_container[0]
+        cashback = format_cashback_str(str(content_cashback.text))
+        # if name == "marionnaud":
+        #     content_cashback_giftcard = content_container[1]
+        #     cashback += format_cashback_str(str(content_cashback_giftcard.text))
+        return None, cashback
+    except:
+        return "Error when crawling Widilo", 0
 
 def get_cashback(name: str):
     # Except Widilo, all others platform has affiliate offer
-    cashback_ebuyclub = get_cashback_ebuyclub(name) * 1.1
-    cashback_widilo = get_cashback_widilo(name)
-    cashback_igraal = get_cashback_igraal(name) * 1.1
-    cashback_poulpeo = get_cashback_poulpeo(name) * 1.
+    error_ebuyclub, cashback_ebuyclub = get_cashback_ebuyclub(name)
+    error_widilo, cashback_widilo = get_cashback_widilo(name)
+    error_igraal, cashback_igraal = get_cashback_igraal(name)
+    error_poulpeo, cashback_poulpeo = get_cashback_poulpeo(name)
+
+    cashback_ebuyclub *= 1.1
+    cashback_igraal *= 1.1
 
     # 10% cashback of cashback gained (only for Marionnaud and Sephora)
     if (name == "marionnaud" or name == "sephora"):
@@ -100,10 +113,11 @@ def get_cashback(name: str):
 
     return {
         "cashback": round(cashback_final, 2),
-        "platform": platform_str
+        "platform": platform_str,
+        "error": [error_ebuyclub, error_widilo, error_igraal, error_poulpeo]
     }
 
-def get_euro_rate():
+def get_euro_rate(): 
     vcb_api = "https://portal.vietcombank.com.vn/Usercontrols/TVPortal.TyGia/pXML.aspx?b=10"
     try:
         res = requests.get(vcb_api, headers=hdr)

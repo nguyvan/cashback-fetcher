@@ -54,6 +54,11 @@
 										<h3>Cashback Marionnaud</h3>
 										<p>{{ cashback_marionnaud }}%</p>
                                         <p>{{ platform_marionnaud }}</p>
+                    {% for error in error_marionnaud %}
+                        {% if error %}
+                            <p style="color:red;">{{ error }}</p>
+                        {% endif %}
+                    {% endfor %}
 									</header>
 								</article>
 								<article>
@@ -64,6 +69,11 @@
 										<h3>Cashback Sephora</h3>
 										<p>{{ cashback_sephora }}%</p>
                                         <p>{{ platform_sephora }}</p>
+                    {% for error in error_sephora %}
+                        {% if error %}
+                            <p style="color:red;">{{ error }}</p>
+                        {% endif %}
+                    {% endfor %}
 									</header>
 								</article>
 								<article>
@@ -74,6 +84,11 @@
 										<h3>Cashback Lacoste</h3>
 										<p>{{ cashback_lacoste }}%</p>
                                         <p>{{ platform_lacoste }}</p>
+                    {% for error in error_lacoste %}
+                        {% if error %}
+                            <p style="color:red;">{{ error }}</p>
+                        {% endif %}
+                    {% endfor %}
 									</header>
 								</article>
 								<article>
@@ -84,6 +99,11 @@
 										<h3>Cashback Zalando Privé</h3>
 										<p>{{ cashback_zalando_prive }}%</p>
                                         <p>{{ platform_zalando_prive }}</p>
+                    {% for error in error_zalando_prive %}
+                        {% if error %}
+                            <p style="color:red;">{{ error }}</p>
+                        {% endif %}
+                    {% endfor %}
 									</header>
 								</article>
 								<article>
@@ -95,6 +115,11 @@
 										<h3>Cashback Nocibé</h3>
 										<p>{{ cashback_nocibe }}%</p>
                                         <p>{{ platform_nocibe }}</p>
+                    {% for error in error_nocibe %}
+                        {% if error %}
+                            <p style="color:red;">{{ error }}</p>
+                        {% endif %}
+                    {% endfor %}
 									</header>
 								</article>
 							</section>

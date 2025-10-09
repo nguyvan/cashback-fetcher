@@ -20,11 +20,16 @@ def main():
                            euro_rate=euro_data["rate"],
                            cashback_marionnaud=marionnaud["cashback"],
                            platform_marionnaud=marionnaud["platform"],
+                           error_marionnaud=marionnaud["error"],
                            cashback_sephora=sephora["cashback"],
                            platform_sephora=sephora["platform"],
+                           error_sephora=sephora["error"],
                            cashback_lacoste=lacoste["cashback"],
                            platform_lacoste=lacoste["platform"],
+                           error_lacoste=lacoste["error"],
                            cashback_zalando_prive=zalando_prive["cashback"],
                            platform_zalando_prive=zalando_prive["platform"],
+                           error_zalando_prive=zalando_prive["error"],
                            cashback_nocibe=nocibe["cashback"],
-                           platform_nocibe=nocibe["platform"])
+                           platform_nocibe=nocibe["platform"],
+                           error_nocibe=nocibe["error"])
