@@ -33,11 +33,12 @@ def get_cashback_ebuyclub(name: str) -> float:
       url = f"https://www.ebuyclub.com/reduction-{url_name}"
       soup = get_soup_parser(url)
 
-      content_container = soup.find("form", id="fake-reload")
-      content = content_container.find("strong")
+      content_container = soup.find_all("span", class_="text-red")
+      content = content_container[1]
       cashback = format_cashback_str(str(content.text))
       return None, cashback
-    except:
+    except Exception as e:
+        print(e)
         return "Error when crawling eBuyclub", 0
 
 def get_cashback_poulpeo(name: str) -> float:
